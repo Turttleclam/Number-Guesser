@@ -1,7 +1,12 @@
 #!/bin/bash
 
-# Number Guessing Game
-
+# Number Guessing Game DB
+if [[ $1 == test ]]
+then 
+  PSQL="psql --username=freecodecamp --dbname=numberstest -t --no-align -c"
+else 
+  PSQL="psql --username=freecodecamp --dbname=numbers -t --no-align -c"
+fi
 # Prompt for a username
 echo -e "\nEnter your username:"
 read USER_NAME
