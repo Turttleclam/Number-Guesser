@@ -30,6 +30,24 @@ read USER_GUESS
 if [[ ! $USER_GUESS =~ ^[0-9]+$ ]]
 then 
   echo -e "\nThat is not an integer, guess again:"
+else
+  # If guess is lower
+  if [[ $USER_GUESS < $RANDOM_NUMBER ]]
+  then
+    echo -e "\nIt's higher than that, guess again:"
+  fi
+  # If guess is higher
+  if [[ $USER_GUESS > $RANDOM_NUMBER ]]
+  then
+    echo -e "\nIt's lower than that, guess again:"
+  fi
+  # If guess is correct
+  if [[ $USER_GUESS == $RANDOM_NUMBER ]]
+  then 
+    echo -e "\nYou guessed it in <number of guesses> tries. The secret number was $RANDOM_NUMBER. Nice job!"
+  fi
+
+
   
 
 
