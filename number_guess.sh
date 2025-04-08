@@ -22,7 +22,15 @@ else
   BEST_GAME=$($PSQL "SELECT MIN(score) FROM games WHERE user_id = $USER_NAME")
   echo -e "\nWelcome back, $USER_NAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
 fi
-
+# Game Play: Random number generator
+RANDOM_NUMBER=$(( (RANDOM % 1000) + 1 ))
+# Game Play: Handle user input
+echo -e "\nGuess the secret number between 1 and 1000:"
+read USER_GUESS
+if [[ ! $USER_GUESS =~ ^[0-9]+$ ]]
+then 
+  echo -e "\nThat is not an integer, guess again:"
+  
 
 
 
