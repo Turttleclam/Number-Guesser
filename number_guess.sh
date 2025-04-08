@@ -24,6 +24,7 @@ else
 fi
 # Game Play: Random number generator
 RANDOM_NUMBER=$(( (RANDOM % 1000) + 1 ))
+# Initialize score variable
 SCORE=0
 # Game Play: Handle user input
 echo -e "\nGuess the secret number between 1 and 1000:"
@@ -32,25 +33,28 @@ if [[ ! $USER_GUESS =~ ^[0-9]+$ ]]
 then
   echo -e "\nThat is not an integer, guess again:"
 else
+  while (( $USER_GUESS =~ ^[0-9]+$ ))
+  do
   # If guess is lower
-  if [[ $USER_GUESS < $RANDOM_NUMBER ]]
-  then
-    $SCORE++
-    echo -e "\nIt's higher than that, guess again:"
-  fi
-  # If guess is higher
-  if [[ $USER_GUESS > $RANDOM_NUMBER ]]
-  then
-    $SCORE++
-    echo -e "\nIt's lower than that, guess again:"
-  fi
-  # If guess is correct
-  if [[ $USER_GUESS == $RANDOM_NUMBER ]]
-  then 
-    $SCORE++
-    INSERT_SCORE=$($PSQL "INSERT INTO games(score) VALUES($SCORE)")
-    echo -e "\nYou guessed it in <number of guesses> tries. The secret number was $RANDOM_NUMBER. Nice job!"
-  fi
+    if [[ $USER_GUESS < $RANDOM_NUMBER ]]
+    then
+      ((SCORE++))
+      echo -e "\nIt's higher than that, guess again:"
+    fi
+    # If guess is higher
+    if [[ $USER_GUESS > $RANDOM_NUMBER ]]
+    then
+      ((SCORE++))
+      echo -e "\nIt's lower than that, guess again:"
+    fi
+    # If guess is correct
+    if [[ $USER_GUESS == $RANDOM_NUMBER ]]
+    then 
+      ((SCORE++))
+      INSERT_SCORE=$($PSQL "INSERT INTO games(score) VALUES($SCORE)")
+      echo -e "\nYou guessed it in <number of guesses> tries. The secret number was $RANDOM_NUMBER. Nice job!"
+    fi
+  done
 fi
 
 
