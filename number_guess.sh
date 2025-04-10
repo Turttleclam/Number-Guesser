@@ -51,7 +51,7 @@ else
     ((SCORE++))
     INSERT_SCORE=$($PSQL "INSERT INTO games(score) VALUES($SCORE)")
     echo -e "\nYou guessed it in $SCORE tries. The secret number was $RANDOM_NUMBER. Nice job!"
-    fi
+  fi
 fi
 
 
