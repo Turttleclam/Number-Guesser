@@ -16,17 +16,17 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE numbers;
+DROP DATABASE numberstest;
 --
--- Name: numbers; Type: DATABASE; Schema: -; Owner: freecodecamp
+-- Name: numberstest; Type: DATABASE; Schema: -; Owner: freecodecamp
 --
 
-CREATE DATABASE numbers WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
+CREATE DATABASE numberstest WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
 
-ALTER DATABASE numbers OWNER TO freecodecamp;
+ALTER DATABASE numberstest OWNER TO freecodecamp;
 
-\connect numbers
+\connect numberstest
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -50,7 +50,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.games (
     game_id integer NOT NULL,
     user_id integer NOT NULL,
-    score integer NOT NULL
+    score integer
 );
 
 
