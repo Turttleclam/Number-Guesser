@@ -11,7 +11,9 @@ fi
 echo -e "\nEnter your username:"
 read USER_NAME
 # Check for user_id
+# So many issues with this variable, but I think this should work
 USER_ID=$($PSQL "SELECT user_id FROM users WHERE user_name = '$USER_NAME'")
+USER_ID=$(echo "$USER_ID" | xargs) #trims extra spaces
 # If this is a new user
 if [[ -z $USER_ID ]]
 then
@@ -55,7 +57,6 @@ NUMBERS_GAME () {
       echo -e "\nIt's lower than that, guess again:"
     # If guess is correct
     else 
-      echo -e "\nDebug: USER_ID=$USER_ID, SCORE=$SCORE"
       INSERT_SCORE=$($PSQL "INSERT INTO games(user_id, score) VALUES($USER_ID, $SCORE)")
       echo -e "\nYou guessed it in $SCORE tries. The secret number was $RANDOM_NUMBER. Nice job!"
       break
