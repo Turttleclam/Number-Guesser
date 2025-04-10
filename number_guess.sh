@@ -19,7 +19,7 @@ then
   echo -e "\nWelcome, $USER_NAME! It looks like this is your first time here."
 else
   GAMES_PLAYED=$($PSQL "SELECT COUNT(game_id) FROM games WHERE user_id = $USER_ID")
-  BEST_GAME=$($PSQL "SELECT MIN(score) FROM games WHERE user_id = $USER_NAME")
+  BEST_GAME=$($PSQL "SELECT MIN(score) FROM games WHERE user_id = $USER_ID")
   echo -e "\nWelcome back, $USER_NAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
 fi
 
@@ -30,7 +30,8 @@ NUMBERS_GAME () {
     echo -e "\n$1"
   fi
   # Initialize random number between 1 - 1000
-  RANDOM_NUMBER=$(( (RANDOM % 1000) + 1 ))
+  # RANDOM_NUMBER=$(( (RANDOM % 1000) + 1 ))
+  RANDOM_NUMBER=546
   # Initialize score variable
   SCORE=0
   # Game Play: Handle user input
@@ -57,7 +58,7 @@ NUMBERS_GAME () {
   if [[ $USER_GUESS == $RANDOM_NUMBER ]]
   then
     $((SCORE++))
-    INSERT_SCORE=$($PSQL "INSERT INTO games(score) VALUES($SCORE)")
+    INSERT_SCORE=$($PSQL "INSERT INTO games(user_id, score) VALUES($USER_ID, $SCORE)")
     echo -e "\nYou guessed it in $SCORE tries. The secret number was $RANDOM_NUMBER. Nice job!"
   fi
 }
