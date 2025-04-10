@@ -40,6 +40,7 @@ NUMBERS_GAME () {
     if [[ ! $USER_GUESS =~ ^[0-9]+$ ]]
     then
       echo -e "\nThat is not an integer, guess again:"
+      continue
     fi
     # Increment the score
     (( SCORE++ ))
@@ -54,7 +55,7 @@ NUMBERS_GAME () {
       echo -e "\nIt's lower than that, guess again:"
     # If guess is correct
     else 
-      echo -e"\nDebug: USER_ID=$USER_ID, SCORE=$SCORE"
+      echo -e "\nDebug: USER_ID=$USER_ID, SCORE=$SCORE"
       INSERT_SCORE=$($PSQL "INSERT INTO games(user_id, score) VALUES($USER_ID, $SCORE)")
       echo -e "\nYou guessed it in $SCORE tries. The secret number was $RANDOM_NUMBER. Nice job!"
       break
@@ -63,11 +64,3 @@ NUMBERS_GAME () {
 }
 
 NUMBERS_GAME
-
-
-  
-
-
-
-
-
