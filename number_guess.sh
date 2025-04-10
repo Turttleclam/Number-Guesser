@@ -10,14 +10,15 @@ fi
 # Prompt for a username
 echo -e "\nEnter your username:"
 read USER_NAME
+SANITIZED_USER_NAME=$(echo $USER_NAME | sed "s/'/''/g")
 # Check for user_id
 # So many issues with this variable, but I think this should work
-USER_ID=$($PSQL "SELECT user_id FROM users WHERE user_name = '$USER_NAME'")
-USER_ID=$(echo "$USER_ID" | xargs) #trims extra spaces
+USER_ID=$($PSQL "SELECT user_id FROM users WHERE user_name = '$SANITIZED_USER_NAME'")
 # If this is a new user
 if [[ -z $USER_ID ]]
 then
-  INSERT_NEW_USER=$($PSQL "INSERT INTO users(user_name) VALUES('$USER_NAME')")
+  INSERT_NEW_USER=$($PSQL "INSERT INTO users(user_name) VALUES('$SANITIZED_USER_NAME') RETURNING user_id")
+  USER_ID=$(echo "$USER_ID" | xargs) #trims extra spaces
   echo -e "\nWelcome, $USER_NAME! It looks like this is your first time here."
 else
   GAMES_PLAYED=$($PSQL "SELECT COUNT(game_id) FROM games WHERE user_id = $USER_ID")
@@ -37,7 +38,7 @@ NUMBERS_GAME () {
 
   while true
   do
-    read USER_GUESS
+    read -r USER_GUESS
     # If user input is not a number
     if [[ ! $USER_GUESS =~ ^[0-9]+$ ]]
     then
@@ -57,7 +58,9 @@ NUMBERS_GAME () {
       echo -e "\nIt's lower than that, guess again:"
     # If guess is correct
     else 
-      INSERT_SCORE=$($PSQL "INSERT INTO games(user_id, score) VALUES($USER_ID, $SCORE)")
+      # So many issues wiht the original user-id variable. Had to make new one. This works somehow
+      U_ID=$($PSQL "SELECT user_id FROM users WHERE user_name = '$USER_NAME'")
+      INSERT_SCORE=$($PSQL "INSERT INTO games(user_id, score) VALUES($U_ID, $SCORE)")
       echo -e "\nYou guessed it in $SCORE tries. The secret number was $RANDOM_NUMBER. Nice job!"
       break
     fi
