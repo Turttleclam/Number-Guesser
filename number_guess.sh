@@ -28,8 +28,8 @@ fi
 # Game Play: Random number generator
 NUMBERS_GAME () {
   # Initialize random number between 1 - 1000
-  # RANDOM_NUMBER=$(( (RANDOM % 1000) + 1 ))
-  RANDOM_NUMBER=546
+  RANDOM_NUMBER=$(( (RANDOM % 1000) + 1 ))
+  # RANDOM_NUMBER=546
   # Initialize score variable
   SCORE=0
   # Game Play: Handle user input
