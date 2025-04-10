@@ -36,19 +36,19 @@ else
   # While guess is lower
   while (( $USER_GUESS < $RANDOM_NUMBER ))
   do
-    ((SCORE++))
+    $((SCORE++))
     echo -e "\nIt's higher than that, guess again:"
   done
   # While guess is higher
   while (( $USER_GUESS > $RANDOM_NUMBER ))
   do
-    ((SCORE++))
+    $((SCORE++))
     echo -e "\nIt's lower than that, guess again:"
   done
   # If guess is correct
   if [[ $USER_GUESS == $RANDOM_NUMBER ]]
   then 
-    ((SCORE++))
+    $((SCORE++))
     INSERT_SCORE=$($PSQL "INSERT INTO games(score) VALUES($SCORE)")
     echo -e "\nYou guessed it in $SCORE tries. The secret number was $RANDOM_NUMBER. Nice job!"
   fi
